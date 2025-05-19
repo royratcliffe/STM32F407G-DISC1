@@ -1,0 +1,49 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Launch Renode",
+            "type": "shell",
+            "command": "renode",
+            "args": [
+                "${workspaceFolder}/stm32f407g-disc1.resc"
+            ],
+            "dependsOn": [
+                "CMake: build",
+            ],
+            "isBackground": true,
+            "problemMatcher": {
+                "source": "Renode",
+                "pattern": {
+                    "regexp": ""
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "Including script: .*",
+                    "endsPattern": ".*GDB server with all CPUs started on port.*"
+                }
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            }
+        },
+        {
+            "label": "Terminate Renode",
+            "command": "${input:terminate}",
+            "type": "shell",
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "terminate",
+            "type": "command",
+            "command": "workbench.action.tasks.terminate",
+            "args": "terminateAll"
+        }
+    ]
+}
