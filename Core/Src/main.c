@@ -92,6 +92,16 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
 
+  /*
+   * Initialise the F4 Discovery board's four LEDs: LED4, LED3, LED5, and LED6.
+   * Notice the nonsequential ordering. The order follows the GPIO pin order on
+   * GPIO port D, pins 12 through 15.
+   */
+  BSP_LED_Init(LED4);
+  BSP_LED_Init(LED3);
+  BSP_LED_Init(LED5);
+  BSP_LED_Init(LED6);
+
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -108,6 +118,15 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
+    BSP_LED_Toggle(LED4);
+    HAL_Delay(10);
+    BSP_LED_Toggle(LED3);
+    HAL_Delay(10);
+    BSP_LED_Toggle(LED5);
+    HAL_Delay(10);
+    BSP_LED_Toggle(LED6);
+    HAL_Delay(10);
 
     /* USER CODE BEGIN 3 */
   }
