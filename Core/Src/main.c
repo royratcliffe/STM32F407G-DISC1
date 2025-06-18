@@ -107,7 +107,7 @@ int main(void)
 
   /*
    * Initialise the F4 Discovery board's four LEDs: LED4, LED3, LED5, and LED6.
-   * Notice the nonsequential ordering. The order follows the GPIO pin order on
+   * Notice the non-sequential ordering. The order follows the GPIO pin order on
    * GPIO port D, pins 12 through 15.
    */
   BSP_LED_Init(LED4);
