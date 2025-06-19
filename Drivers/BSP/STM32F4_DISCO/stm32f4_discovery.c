@@ -432,6 +432,8 @@ static uint8_t I2Cx_ReadData(uint8_t Addr, uint8_t Reg)
  */
 static void I2Cx_Error(uint8_t Addr)
 {
+  (void)Addr;
+
   /* De-initialize the I2C communication bus */
   HAL_I2C_DeInit(&I2cHandle);
 
