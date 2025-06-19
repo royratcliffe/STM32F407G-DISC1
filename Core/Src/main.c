@@ -59,6 +59,13 @@ const osThreadAttr_t defaultTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
+/* Definitions for consoleTask */
+osThreadId_t consoleTaskHandle;
+const osThreadAttr_t consoleTask_attributes = {
+  .name = "consoleTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityLow,
+};
 /* USER CODE BEGIN PV */
 
 /* USER CODE END PV */
@@ -71,6 +78,7 @@ static void MX_I2S3_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USART2_UART_Init(void);
 void StartDefaultTask(void *argument);
+extern void vConsoleTask(void *argument);
 
 /* USER CODE BEGIN PFP */
 
@@ -150,6 +158,9 @@ int main(void)
   /* Create the thread(s) */
   /* creation of defaultTask */
   defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+
+  /* creation of consoleTask */
+  consoleTaskHandle = osThreadNew(vConsoleTask, (void*) "/ACM0/", &consoleTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
