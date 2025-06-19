@@ -56,6 +56,12 @@
 #define CMSIS_device_header "stm32f4xx.h"
 #endif /* CMSIS_device_header */
 
+/* Dimensions a buffer that can be used by the FreeRTOS+CLI command
+interpreter.  Set this value to 1 to save RAM if FreeRTOS+CLI does not supply
+the output butter.  See the FreeRTOS+CLI documentation for more information:
+http://www.FreeRTOS.org/FreeRTOS-Plus/FreeRTOS_Plus_CLI/ */
+#define configCOMMAND_INT_MAX_OUTPUT_SIZE			1024
+
 #define configENABLE_FPU                         0
 #define configENABLE_MPU                         0
 
