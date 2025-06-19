@@ -40,6 +40,12 @@ add_executable(${CMAKE_PROJECT_NAME})
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
 
+# FreeRTOS static library for FreeRTOS+IO
+add_subdirectory(Middlewares/Third_Party/FreeRTOS-Plus-IO)
+
+# FreeRTOS static library for FreeRTOS+CLI
+add_subdirectory(Middlewares/Third_Party/FreeRTOS-Plus-CLI)
+
 # Link directories setup
 target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
@@ -48,6 +54,7 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
+    ${CMAKE_SOURCE_DIR}/Core/Src/console.c
     ${CMAKE_SOURCE_DIR}/Drivers/BSP/STM32F4_DISCO/stm32f4_discovery.c
 )
 
@@ -67,4 +74,6 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
 
     # Add user defined libraries
+    FreeRTOS_IO
+    FreeRTOS_CLI
 )
