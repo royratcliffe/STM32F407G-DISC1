@@ -50,7 +50,7 @@
 #define ioconfigUSE_RX_CHAR_QUEUE 							1
 
 /* Peripheral options --------------------------------------------------------*/
-#define ioconfigINCLUDE_UART								1
+#define ioconfigINCLUDE_UART								0
 	#define ioconfigUSE_UART_POLLED_TX						1
 	#define ioconfigUSE_UART_POLLED_RX						1
 	#define ioconfigUSE_UART_ZERO_COPY_TX					1
@@ -58,7 +58,7 @@
 	#define ioconfigUSE_UART_CIRCULAR_BUFFER_RX				1
 	#define ioconfigUSE_UART_RX_CHAR_QUEUE					1
 
-#define ioconfigINCLUDE_SSP									1
+#define ioconfigINCLUDE_SSP									0
 	#define ioconfigUSE_SSP_POLLED_TX						1
 	#define ioconfigUSE_SSP_POLLED_RX						1
 	#define ioconfigUSE_SSP_ZERO_COPY_TX					0
@@ -66,12 +66,20 @@
 	#define ioconfigUSE_SSP_RX_CHAR_QUEUE					0
 	#define ioconfigUSE_SSP_TX_CHAR_QUEUE					0
 
-#define ioconfigINCLUDE_I2C									1
+#define ioconfigINCLUDE_I2C									0
 	#define ioconfigUSE_I2C_POLLED_TX						1
 	#define ioconfigUSE_I2C_POLLED_RX						1
 	#define ioconfigUSE_I2C_ZERO_COPY_TX					1
 	#define ioconfigUSE_I2C_CIRCULAR_BUFFER_RX				1
 	#define ioconfigUSE_I2C_TX_CHAR_QUEUE					1
+
+#define ioconfigINCLUDE_USB									1
+	#define ioconfigUSE_USB_POLLED_TX						1
+	#define ioconfigUSE_USB_POLLED_RX						1
+	#define ioconfigUSE_USB_ZERO_COPY_TX					1
+	#define ioconfigUSE_USB_TX_CHAR_QUEUE					1
+	#define ioconfigUSE_USB_CIRCULAR_BUFFER_RX				1
+	#define ioconfigUSE_USB_RX_CHAR_QUEUE					1
 
 
 
@@ -122,5 +130,3 @@
 #endif
 
 #endif /* FREERTOS_IO_CONFIG_H */
-
-

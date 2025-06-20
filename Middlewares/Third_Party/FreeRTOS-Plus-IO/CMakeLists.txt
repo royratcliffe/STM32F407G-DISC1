@@ -12,6 +12,7 @@ set(FreeRTOS_Plus_IO_Src
     ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS-Plus-IO/Common/IOUtils_CircularBufferRx.c
     ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS-Plus-IO/Common/IOUtils_ZeroCopyTx.c
     ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS-Plus-IO/Device/STM32xx/FreeRTOS_stm32xx_DriverInterface.c
+    ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS-Plus-IO/Device/STM32xx/FreeRTOS_stm32xx_usb.c
 )
 
 # Create FreeRTOS static library for FreeRTOS+IO

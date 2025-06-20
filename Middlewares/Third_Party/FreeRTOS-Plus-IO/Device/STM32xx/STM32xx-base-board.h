@@ -54,7 +54,7 @@
  ******************************************************************************/
 #define boardAVAILABLE_DEVICES_LIST												\
 {																				\
-	{ ( const int8_t * const ) "/ACM0/", eUART_TYPE, ( void * ) NULL }		\
+	{ ( const int8_t * const ) "/ACM0/", eUSB_TYPE, ( void * ) NULL }			\
 }
 
 
@@ -63,5 +63,14 @@
  ******************************************************************************/
 portBASE_TYPE vFreeRTOS_stm32xx_PopulateFunctionPointers( const Peripheral_Types_t ePeripheralType, Peripheral_Control_t * const pxPeripheralControl );
 #define boardFreeRTOS_PopulateFunctionPointers vFreeRTOS_stm32xx_PopulateFunctionPointers
+
+/*******************************************************************************
+ * These define the number of peripherals available on the microcontroller -
+ * not the number of peripherals that are supported by the software
+ ******************************************************************************/
+#define boardNUM_SSPS				0 /* SSP0 to SSP1. */
+#define boardNUM_UARTS				0 /* UART0 to UART3. */
+#define boardNUM_I2CS				0 /* I2C0 to I2C2. */
+#define boardNUM_USBS				1 /* USB0. */
 
 #endif /* STM32XX_BASE_BOARD_H */

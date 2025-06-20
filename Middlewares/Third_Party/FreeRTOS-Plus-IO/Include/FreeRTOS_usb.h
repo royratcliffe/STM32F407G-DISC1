@@ -35,74 +35,14 @@
  *
  */
 
-/* FreeRTOS includes. */
-#include "FreeRTOS.h"
-#include "task.h"
+#ifndef FREERTOS_IO_UART_H
+#define FREERTOS_IO_UART_H
 
-/* FreeRTOS IO library includes. */
-#include "FreeRTOS_DriverInterface.h"
-#include "FreeRTOS_uart.h"
-#include "FreeRTOS_ssp.h"
-#include "FreeRTOS_i2c.h"
-#include "FreeRTOS_usb.h"
+/* These are not public functions.  Do not call these functions directly.  Call
+FreeRTOS_Open(), FreeRTOS_write(), FreeRTOS_read() and FreeRTOS_ioctl() only. */
+portBASE_TYPE FreeRTOS_USB_open( Peripheral_Control_t * const pxPeripheralControl );
+size_t FreeRTOS_USB_write( Peripheral_Descriptor_t const pxPeripheral, const void *pvBuffer, const size_t xBytes );
+size_t FreeRTOS_USB_read( Peripheral_Descriptor_t const pxPeripheral, void * const pvBuffer, const size_t xBytes );
+portBASE_TYPE FreeRTOS_USB_ioctl( Peripheral_Descriptor_t pxPeripheral, uint32_t ulRequest, void *pvValue );
 
-portBASE_TYPE vFreeRTOS_stm32xx_PopulateFunctionPointers( const Peripheral_Types_t ePeripheralType, Peripheral_Control_t * const pxPeripheralControl )
-{
-portBASE_TYPE xReturn = pdFALSE;
-
-	switch( ePeripheralType )
-	{
-		/* Open the peripheral. */
-		case eUART_TYPE	:
-
-			#if ioconfigINCLUDE_UART == 1
-			{
-				xReturn = FreeRTOS_UART_open( pxPeripheralControl );
-			}
-			#endif /* ioconfigINCLUDE_UART */
-			break;
-
-
-		case eSSP_TYPE :
-
-			#if ioconfigINCLUDE_SSP == 1
-			{
-				xReturn = FreeRTOS_SSP_open( pxPeripheralControl );
-			}
-			#endif /* ioconfigINCLUDE_SSP */
-			break;
-
-
-		case eI2C_TYPE :
-
-			#if ioconfigINCLUDE_I2C == 1
-			{
-				xReturn = FreeRTOS_I2C_open( pxPeripheralControl );
-			}
-			#endif /* ioconfigINCLUDE_I2C */
-			break;
-
-
-		case eUSB_TYPE :
-
-			#if ioconfigINCLUDE_USB == 1
-			{
-				xReturn = FreeRTOS_USB_open( pxPeripheralControl );
-			}
-			#endif /* ioconfigINCLUDE_I2C */
-			break;
-
-
-		default :
-
-			/* Nothing to do here.  xReturn is already set to pdFALSE. */
-			configASSERT( xReturn );
-			break;
-	}
-
-	/* Just to prevent compiler warnings should FreeRTOSIOConfig.h be
-	configured to exclude the above FreeRTOS_nnn_open() calls. */
-	( void ) pxPeripheralControl;
-
-	return xReturn;
-}
+#endif /* FREERTOS_IO_UART_H */
