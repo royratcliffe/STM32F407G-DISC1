@@ -92,6 +92,15 @@ int main(void)
 
   /* USER CODE BEGIN SysInit */
 
+  /* USER CODE END SysInit */
+
+  /* Initialize all configured peripherals */
+  MX_GPIO_Init();
+  MX_I2C1_Init();
+  MX_I2S3_Init();
+  MX_SPI1_Init();
+  /* USER CODE BEGIN 2 */
+
   /*
    * Initialise the F4 Discovery board's four LEDs: LED4, LED3, LED5, and LED6.
    * Notice the nonsequential ordering. The order follows the GPIO pin order on
@@ -101,15 +110,6 @@ int main(void)
   BSP_LED_Init(LED3);
   BSP_LED_Init(LED5);
   BSP_LED_Init(LED6);
-
-  /* USER CODE END SysInit */
-
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_I2C1_Init();
-  MX_I2S3_Init();
-  MX_SPI1_Init();
-  /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
 
