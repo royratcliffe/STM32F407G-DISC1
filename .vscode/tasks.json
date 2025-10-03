@@ -6,9 +6,16 @@
         {
             "label": "Launch Renode",
             "type": "shell",
-            "command": "renode",
+            "command": "podman",
             "args": [
-                "${workspaceFolder}/stm32f407g-disc1.resc"
+                "run",
+                "--rm",
+                "-it",
+                "-p", "3333:3333",
+                "-v", "${workspaceFolder}:/home/developer",
+                "antmicro/renode:latest",
+                "renode",
+                "stm32f407g-disc1.resc"
             ],
             "dependsOn": [
                 "CMake: build",
