@@ -24,9 +24,10 @@ jobs:
       run: sudo apt-get install -y cmake gcc-arm-none-eabi
 
     - name: Set up Renode
-      uses: renode/renode-setup@v1
+      uses: antmicro/renode-test-action@v4
       with:
-        renode-version: 'latest'
+        renode-revision: 'master'
+        tests-to-run: 'tests/**/*.robot'
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
