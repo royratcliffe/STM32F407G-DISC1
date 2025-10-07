@@ -38,6 +38,10 @@ jobs:
       # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
       run: ctest -C ${{env.BUILD_TYPE}}
 
+    # Use version-5 of the Renode test action.
+    # The README recommends version 4, but version 5 has important fixes for ARM Cortex-M targets.
+    # Version 4 also fails to install properly on ubuntu-latest, the Linux Noble release.
+    # The action automatically sets up Renode, runs the specified tests, and collects the results.
     - name: Perform Renode Tests
       uses: antmicro/renode-test-action@v5
       with:
