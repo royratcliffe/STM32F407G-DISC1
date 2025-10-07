@@ -39,7 +39,7 @@ jobs:
       run: ctest -C ${{env.BUILD_TYPE}}
 
     - name: Perform Renode Tests
-      uses: antmicro/renode-test-action@v4
+      uses: antmicro/renode-test-action@v5
       with:
         renode-revision: 'master'
         tests-to-run: 'tests/**/*.robot'
