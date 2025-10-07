@@ -6,6 +6,13 @@
         {
             "label": "Launch Renode",
             "type": "shell",
+            // Requires Renode to be installed and available in PATH. On
+            // Windows, you may need to adjust the command to point to
+            // Renode.exe after installation. Install using WinGET: winget
+            // install Renode or download from https://renode.io directly. Add
+            // %ProgramFiles%\Renode\bin to your PATH environment variable if
+            // not done automatically by the installer. The current version
+            // 1.16.0 does not automatically add itself to PATH.
             "command": "renode",
             "args": [
                 "${workspaceFolder}/stm32f407g-disc1.resc"
