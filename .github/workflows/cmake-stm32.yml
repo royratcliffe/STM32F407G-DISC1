@@ -47,5 +47,10 @@ jobs:
     - name: Perform Renode Tests
       uses: antmicro/renode-test-action@v5
       with:
-        renode-revision: 'master'
-        tests-to-run: 'tests/**/*.robot'
+        # Use the master branch of Renode to get the latest features and fixes.
+        # It builds from source, so the action takes longer to run than if you use a fixed version.
+        # If you want to use a fixed version, use the renode-version input instead.
+        # See https://github.com/antmicro/renode-test-action#inputs for more information.
+        # renode-revision: 'master'
+        renode-version: 'latest'
+        tests-to-run: 'Testing/**/*.robot'
