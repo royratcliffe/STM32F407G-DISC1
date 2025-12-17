@@ -5,6 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "cwd": "${workspaceFolder}",
+            "executable": "${command:cmake.launchTargetPath}",
+            "name": "Debug with QEMU",
+            "request": "launch",
+            "type": "cortex-debug",
+            // Provide both the CPU and machine type.
+            "cpu": "cortex-m4",
+            "machine": "netduinoplus2",
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+            "servertype": "qemu"
+        },
+        {
             "cwd": "${workspaceRoot}",
             "executable": "${command:cmake.launchTargetPath}",
             "name": "Debug with OpenOCD",
