@@ -30,10 +30,6 @@ int main(void) {
     int err = ring_buf_get_ack(&buf, ack);
     assert(err == 0);
 
-    /*
-     * Standard library printf() does not support %f format specifier
-     * in this environment, so we use a legacy function to print floats.
-     */
     (void)printf("number=");
     (void)fcvtfprintf(number, 3);
     (void)printf("\n");
