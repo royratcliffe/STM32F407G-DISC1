@@ -93,6 +93,10 @@ target_sources(a_test PRIVATE
     # Add test sources.
     ${CMAKE_SOURCE_DIR}/Tests/a_test.c
     # Add application sources.
+    ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf_circ.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf_item.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf_yield.c
     # Add system and startup sources.
     ${CMAKE_SOURCE_DIR}/Core/Src/system_stm32f4xx.c
     ${CMAKE_SOURCE_DIR}/startup_stm32f407xx.s
