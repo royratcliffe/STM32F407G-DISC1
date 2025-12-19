@@ -5,6 +5,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
+char *fcvtf(float d, int ndigit, int *decpt, int *sign);
+int fcvtfprintf(float d, int ndigit);
+
 int main(void) {
   initialise_monitor_handles();
   (void)printf("Hello, World from %s!!!\n", "a_test");
@@ -28,11 +31,19 @@ int main(void) {
   while ((ack = ring_buf_get(&buf, &number, sizeof(number)))) {
     int err = ring_buf_get_ack(&buf, ack);
     assert(err == 0);
-    (void)printf("number=%d\n", (int)number);
+    (void)printf("number=");
+    (void)fcvtfprintf(number, 3);
+    (void)printf("\n");
   }
   assert(ring_buf_free_space(&buf) == sizeof(float[4U]));
   assert(ring_buf_used_space(&buf) == 0U);
 
   _exit(0);
   return 0;
+}
+
+int fcvtfprintf(float d, int ndigit) {
+  int decpt, sign;
+  const char *buf = fcvtf(d, ndigit, &decpt, &sign);
+  return printf("%s%.*s.%s", sign ? "-" : "", decpt, buf, buf + decpt);
 }
