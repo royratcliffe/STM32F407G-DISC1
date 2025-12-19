@@ -1,19 +1,10 @@
 #include "monitor_handles.h"
 #include "ring_buf.h"
+#include "fcvtf.h"
 
 #include <assert.h>
 #include <stdio.h>
 #include <unistd.h>
-
-/*!
- * \brief Print a float using fcvtf.
- * \details Prints the float number \p d with \p ndigit digits after the
- * decimal point using the legacy function fcvtf().
- * \param d Float number to print.
- * \param ndigit Number of digits to print after the decimal point.
- * \return Number of characters printed.
- */
-int fcvtfprintf(float d, int ndigit);
 
 int main(void) {
   initialise_monitor_handles();
@@ -52,11 +43,4 @@ int main(void) {
 
   _exit(0);
   return 0;
-}
-
-int fcvtfprintf(float d, int ndigit) {
-  extern char *fcvtf(float d, int ndigit, int *decpt, int *sign);
-  int decpt, sign;
-  const char *buf = fcvtf(d, ndigit, &decpt, &sign);
-  return printf("%s%.*s.%s", sign ? "-" : "", decpt, buf, buf + decpt);
 }

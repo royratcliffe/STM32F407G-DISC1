@@ -92,6 +92,7 @@ add_executable(a_test)
 target_sources(a_test PRIVATE
     # Add test sources.
     ${CMAKE_SOURCE_DIR}/Tests/a_test.c
+    ${CMAKE_SOURCE_DIR}/Tests/fcvtf.c
     # Add application sources.
     ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf.c
     ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf_circ.c
