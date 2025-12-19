@@ -5,6 +5,14 @@
 #include <stdio.h>
 #include <unistd.h>
 
+/*!
+ * \brief Print a float using fcvtf.
+ * \details Prints the float number \p d with \p ndigit digits after the
+ * decimal point using the legacy function fcvtf().
+ * \param d Float number to print.
+ * \param ndigit Number of digits to print after the decimal point.
+ * \return Number of characters printed.
+ */
 int fcvtfprintf(float d, int ndigit);
 
 int main(void) {
@@ -30,6 +38,11 @@ int main(void) {
   while ((ack = ring_buf_get(&buf, &number, sizeof(number)))) {
     int err = ring_buf_get_ack(&buf, ack);
     assert(err == 0);
+
+    /*
+     * Standard library printf() does not support %f format specifier
+     * in this environment, so we use a legacy function to print floats.
+     */
     (void)printf("number=");
     (void)fcvtfprintf(number, 3);
     (void)printf("\n");
