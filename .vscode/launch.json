@@ -18,6 +18,8 @@
             //      -gdb "tcp::50000" -S -kernel "/path/to/some.elf"
             //
             "cpu": "cortex-m4",
+            // Ignore the warning about "machine" not being a valid property. It
+            // is used by the cortex-debug extension to launch QEMU.
             "machine": "netduinoplus2",
             "runToEntryPoint": "main",
             "showDevDebugOutput": "none",
