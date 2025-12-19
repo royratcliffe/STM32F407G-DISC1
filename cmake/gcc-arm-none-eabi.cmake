@@ -44,7 +44,7 @@ set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--print-memory-usage")
 
 set(CMAKE_CXX_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--start-group -lstdc++ -lsupc++ -Wl,--end-group")
 
-# Emulator for cross-compiling tests.
+# QEMU System ARM emulator configuration for cross-compiling tests.
 set(CMAKE_CROSSCOMPILING_EMULATOR qemu-system-arm
     -machine netduinoplus2
     -nographic
