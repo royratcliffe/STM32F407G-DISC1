@@ -100,10 +100,5 @@ target_sources(a_test PRIVATE
 target_include_directories(a_test PRIVATE ${MX_Test_Include_Dirs})
 target_compile_definitions(a_test PRIVATE ${MX_Test_Defines_Syms})
 target_link_options(a_test PRIVATE --specs=rdimon.specs -lrdimon)
-add_test(NAME a_test COMMAND qemu-system-arm
-    -machine netduinoplus2
-    -nographic
-    -no-reboot
-    -semihosting-config enable=on,target=native
-    -kernel ${CMAKE_BINARY_DIR}/a_test.elf)
+add_test(NAME a_test COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} ${CMAKE_BINARY_DIR}/a_test.elf)
 set_target_properties(a_test PROPERTIES TIMEOUT 30)
