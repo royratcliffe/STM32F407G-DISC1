@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <unistd.h>
 
-char *fcvtf(float d, int ndigit, int *decpt, int *sign);
 int fcvtfprintf(float d, int ndigit);
 
 int main(void) {
@@ -43,6 +42,7 @@ int main(void) {
 }
 
 int fcvtfprintf(float d, int ndigit) {
+  extern char *fcvtf(float d, int ndigit, int *decpt, int *sign);
   int decpt, sign;
   const char *buf = fcvtf(d, ndigit, &decpt, &sign);
   return printf("%s%.*s.%s", sign ? "-" : "", decpt, buf, buf + decpt);
