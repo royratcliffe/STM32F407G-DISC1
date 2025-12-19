@@ -64,3 +64,46 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
 
     # Add user defined libraries
 )
+
+include(CTest)
+enable_testing()
+
+# Unit tests setup. Define include paths and symbols for unit tests. These are
+# similar to the main project, but can differ as the tests exclude
+# hardware-specific sources and middlewares.
+set(MX_Test_Include_Dirs
+    ${CMAKE_SOURCE_DIR}/Core/Inc
+    ${CMAKE_SOURCE_DIR}/Core/Src
+    ${CMAKE_SOURCE_DIR}/Drivers/STM32F4xx_HAL_Driver/Inc
+    ${CMAKE_SOURCE_DIR}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
+    ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F4xx/Include
+    ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Include
+)
+set(MX_Test_Defines_Syms
+    USE_HAL_DRIVER
+    STM32F407xx
+    $<$<CONFIG:Debug>:DEBUG>
+)
+
+# This test is run using QEMU emulating a Netduino Plus 2 board (STM32F407VG).
+# The test uses semihosting to report results back to the host.
+# The test has a timeout of 30 seconds.
+add_executable(a_test)
+target_sources(a_test PRIVATE
+    # Add test sources.
+    ${CMAKE_SOURCE_DIR}/Tests/a_test.c
+    # Add application sources.
+    # Add system and startup sources.
+    ${CMAKE_SOURCE_DIR}/Core/Src/system_stm32f4xx.c
+    ${CMAKE_SOURCE_DIR}/startup_stm32f407xx.s
+)
+target_include_directories(a_test PRIVATE ${MX_Test_Include_Dirs})
+target_compile_definitions(a_test PRIVATE ${MX_Test_Defines_Syms})
+target_link_options(a_test PRIVATE --specs=rdimon.specs -lrdimon)
+add_test(NAME a_test COMMAND qemu-system-arm
+    -machine netduinoplus2
+    -nographic
+    -no-reboot
+    -semihosting-config enable=on,target=native
+    -kernel ${CMAKE_BINARY_DIR}/a_test.elf)
+set_target_properties(a_test PROPERTIES TIMEOUT 30)
