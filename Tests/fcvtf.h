@@ -26,4 +26,4 @@ int fcvtfprintf(float d, int ndigit);
  * each call. Therefore, the string should be used or copied before calling this
  * function again. The buffer size is 80 bytes. The function is not thread-safe.
  */
-const char *cvtf(float d, int ndigit);
+const char *_fcvtf(float d, int ndigit);
