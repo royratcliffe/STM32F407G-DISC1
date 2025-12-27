@@ -12,3 +12,12 @@ int fcvtfprintf(float d, int ndigit) {
   const char *buf = fcvtf(d, ndigit, &decpt, &sign);
   return printf("%s%.*s.%s", sign ? "-" : "", decpt, buf, buf + decpt);
 }
+
+const char *cvtf(float d, int ndigit) {
+  static char str[80];
+  extern char *fcvtf(float d, int ndigit, int *decpt, int *sign);
+  int decpt, sign;
+  const char *buf = fcvtf(d, ndigit, &decpt, &sign);
+  (void)snprintf(str, sizeof(str), "%s%.*s.%s", sign ? "-" : "", decpt, buf, buf + decpt);
+  return str;
+}
