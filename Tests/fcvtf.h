@@ -25,5 +25,8 @@ int fcvtfprintf(float d, int ndigit);
  * \note The returned pointer points to a static buffer that is overwritten on
  * each call. Therefore, the string should be used or copied before calling this
  * function again. The buffer size is 80 bytes. The function is not thread-safe.
+ * \note Take care when using this function in the same expression multiple
+ * times, as it returns a pointer to a static buffer that is overwritten on each
+ * call.
  */
 const char *_fcvtf(float d, int ndigit);
