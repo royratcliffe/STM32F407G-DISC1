@@ -57,6 +57,10 @@ char *cvtfbuf(float f, int ndigit, char *buf) {
     (void)strncpy(ptr, cvt, decpt);
     ptr += decpt;
     *ptr++ = '.';
+    /*
+     * Copy the remaining digits after the decimal point.
+     * Assumes that fcvtf() null-terminates the string.
+     */
     (void)strcpy(ptr, cvt + decpt);
   }
   return buf;
