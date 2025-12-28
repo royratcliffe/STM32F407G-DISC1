@@ -46,7 +46,7 @@ int main(void) {
   cross_correlate_float(x, sizeof(x) / sizeof(x[0]), y, sizeof(y) / sizeof(y[0]), result);
   (void)printf("Cross-correlation result:\n");
   for (size_t i = 0; i < sizeof(result) / sizeof(result[0]); i++) {
-    (void)printf("%s ", _fcvtf(result[i], 3));
+    (void)printf("%s ", cvtfbuf(result[i], 6, NULL));
   }
   (void)printf("\n");
   assert(5.0f == result[0]);
