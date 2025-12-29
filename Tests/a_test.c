@@ -56,6 +56,24 @@ int main(void) {
   assert(45.0f == result[4]);
   assert(28.0f == result[5]);
 
+  /*
+   * Now use the ARM CMSIS DSP library to perform the same cross-correlation.
+   * This serves as a validation of the direct implementation.
+   */
+  (void)memset(result, 0, sizeof(result));
+  arm_conv_f32(x, sizeof(x) / sizeof(x[0]), y, sizeof(y) / sizeof(y[0]), result);
+  (void)printf("ARM CMSIS cross-correlation result:\n");
+  for (size_t i = 0; i < sizeof(result) / sizeof(result[0]); i++) {
+    (void)printf("%s ", cvtfbuf(result[i], 6, NULL));
+  }
+  (void)printf("\n");
+  assert(5.0f == result[0]);
+  assert(16.0f == result[1]);
+  assert(34.0f == result[2]);
+  assert(52.0f == result[3]);
+  assert(45.0f == result[4]);
+  assert(28.0f == result[5]);
+
   RING_BUF_DEFINE(buf, sizeof(float[4U]));
 
   float number = 1.0F;
