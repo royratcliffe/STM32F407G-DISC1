@@ -1,3 +1,4 @@
+#include "arm_math.h"
 #include "fcvtf.h"
 #include "monitor_handles.h"
 #include "ring_buf.h"
