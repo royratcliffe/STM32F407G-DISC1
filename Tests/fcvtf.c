@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <string.h>
 
+/*
+ * The newlib nano C library provides this legacy function.
+ * Converts a float to a string.
+ */
 extern char *fcvtf(float d, int ndigit, int *decpt, int *sign);
 
 /*
