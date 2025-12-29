@@ -60,6 +60,37 @@ void correlate_f32(struct correlate_f32 *correlate) {
   correlate->correlated_len = expected_len + actual_len - 1U;
 }
 
+size_t correlate_get_correlated_f32(const struct correlate_f32 *correlate, float32_t **correlated) {
+  if (correlated != NULL) {
+    *correlated = correlate->correlated;
+  }
+  return correlate->correlated_len;
+}
+
+size_t correlate_get_expected_f32(const struct correlate_f32 *correlate, float32_t **expected) {
+  if (expected != NULL) {
+    *expected = correlate->expected;
+  }
+  return correlate->expected_len;
+}
+
+size_t correlate_get_actual_f32(const struct correlate_f32 *correlate, float32_t **actual) {
+  if (actual != NULL) {
+    *actual = correlate->actual;
+  }
+  return correlate->actual_len;
+}
+
+size_t correlated_max_f32(const struct correlate_f32 *correlate, float32_t *max) {
+  float32_t value;
+  uint32_t index;
+  arm_max_f32(correlate->correlated, correlate->correlated_len, &value, &index);
+  if (max != NULL) {
+    *max = value;
+  }
+  return (size_t)index;
+}
+
 #include <assert.h>
 #include <stdio.h>
 #include <unistd.h>
