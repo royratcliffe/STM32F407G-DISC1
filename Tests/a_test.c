@@ -18,8 +18,7 @@
  * sequences x and y, storing the result in the provided output array. The length
  * of the result array should be at least len_x + len_y - 1.
  */
-static void cross_correlate_float(const float *x, int len_x, const float *y, int len_y,
-                                  float *result) {
+static void conv_f32(const float *x, int len_x, const float *y, int len_y, float *result) {
   int len_result = len_x + len_y - 1;
   for (int i = 0; i < len_result; i++) {
     result[i] = 0;
@@ -44,7 +43,7 @@ int main(void) {
   const float x[] = {1.0f, 2.0f, 3.0f, 4.0f};
   const float y[] = {5.0f, 6.0f, 7.0f};
   float result[sizeof(x) / sizeof(x[0]) + sizeof(y) / sizeof(y[0]) - 1] = {0.0f};
-  cross_correlate_float(x, sizeof(x) / sizeof(x[0]), y, sizeof(y) / sizeof(y[0]), result);
+  conv_f32(x, sizeof(x) / sizeof(x[0]), y, sizeof(y) / sizeof(y[0]), result);
   (void)printf("Cross-correlation result:\n");
   for (size_t i = 0; i < sizeof(result) / sizeof(result[0]); i++) {
     (void)printf("%s ", cvtfbuf(result[i], 6, NULL));
