@@ -112,5 +112,6 @@ target_include_directories(a_test PRIVATE ${MX_Test_Include_Dirs})
 target_compile_definitions(a_test PRIVATE ${MX_Test_Defines_Syms})
 target_link_libraries(a_test PRIVATE arm_cortexM4lf_math)
 target_link_options(a_test PRIVATE --specs=rdimon.specs -lrdimon)
-add_test(NAME a_test COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} ${CMAKE_BINARY_DIR}/a_test.elf)
 set_target_properties(a_test PROPERTIES TIMEOUT 30)
+
+add_test(NAME a_test COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} ${CMAKE_BINARY_DIR}/a_test.elf)
