@@ -24,6 +24,7 @@ static void conv_f32(const float *x, int len_x, const float *y, int len_y, float
     result[i] = 0;
     for (int j = 0; j < len_x; j++) {
       /*
+       * reversed convolution index relation:
        * k = i - j
        * y[k] aligns with x[j] for the current output result[i]
        * k must be within the bounds of y
