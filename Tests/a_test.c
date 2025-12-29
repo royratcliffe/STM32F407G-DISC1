@@ -1,7 +1,64 @@
 #include "arm_math.h"
 #include "fcvtf.h"
 #include "monitor_handles.h"
+
+#include "arm_math.h"
 #include "ring_buf.h"
+#include "ring_buf_circ.h"
+
+struct correlate_f32 {
+  float32_t *const correlated, *const expected, *const actual;
+  struct ring_buf *const buf_expected, *const buf_actual;
+  size_t correlated_len, expected_len, actual_len;
+};
+
+#define CORRELATE_F32_DEFINE_STATIC(_name_, _size_)                                                                    \
+  static float32_t _name_##_correlated[_size_ + _size_ - 1];                                                           \
+  static float32_t _name_##_expected[_size_];                                                                          \
+  static float32_t _name_##_actual[_size_];                                                                            \
+  RING_BUF_DEFINE_STATIC(_name_##_buf_expected, sizeof(float[_size_]));                                                \
+  RING_BUF_DEFINE_STATIC(_name_##_buf_actual, sizeof(float[_size_]));                                                  \
+  struct correlate_f32 _name_ = {                                                                                      \
+      .correlated = _name_##_correlated,                                                                               \
+      .expected = _name_##_expected,                                                                                   \
+      .actual = _name_##_actual,                                                                                       \
+      .buf_expected = &_name_##_buf_expected,                                                                          \
+      .buf_actual = &_name_##_buf_actual,                                                                              \
+  }
+
+int correlate_add_expected_f32(struct correlate_f32 *correlate, float32_t expected) {
+  return ring_buf_put_circ(correlate->buf_expected, &expected, sizeof(expected));
+}
+
+int correlate_add_actual_f32(struct correlate_f32 *correlate, float32_t actual) {
+  return ring_buf_put_circ(correlate->buf_actual, &actual, sizeof(actual));
+}
+
+/*!
+ * \brief Get used float32_t data from ring buffer.
+ * \details Retrieves all used data from the ring buffer as float32_t elements.
+ * \param buf Ring buffer.
+ * \param data Destination array for retrieved data.
+ * \returns Number of float32_t elements retrieved.
+ */
+static size_t ring_buf_get_used_f32(struct ring_buf *buf, float32_t *data) {
+  size_t len = ring_buf_get(buf, data, ring_buf_used_space(buf)) / sizeof(float32_t);
+  (void)ring_buf_get_ack(buf, 0U);
+  return len;
+}
+
+void correlate_f32(struct correlate_f32 *correlate) {
+  const size_t expected_len = ring_buf_get_used_f32(correlate->buf_expected, correlate->expected);
+  const size_t actual_len = ring_buf_get_used_f32(correlate->buf_actual, correlate->actual);
+  correlate->expected_len = expected_len;
+  correlate->actual_len = actual_len;
+  if (actual_len == 0U || expected_len == 0U) {
+    correlate->correlated_len = 0U;
+    return;
+  }
+  arm_correlate_f32(correlate->expected, expected_len, correlate->actual, actual_len, correlate->correlated);
+  correlate->correlated_len = expected_len + actual_len - 1U;
+}
 
 #include <assert.h>
 #include <stdio.h>
