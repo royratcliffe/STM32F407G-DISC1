@@ -116,8 +116,7 @@ void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base);
  * \param size Number of bytes to claim.
  * \returns Number of bytes claimed.
  */
-ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space,
-                                   ring_buf_size_t size);
+ring_buf_size_t ring_buf_put_claim(struct ring_buf *buf, void **space, ring_buf_size_t size);
 
 /*!
  * \brief Acknowledges space claimed for putting data into a ring buffer.
@@ -136,8 +135,7 @@ int ring_buf_put_ack(struct ring_buf *buf, ring_buf_size_t size);
  * \brief Claims contiguous space for getting.
  * \details Advances the "get" head.
  */
-ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **space,
-                                   ring_buf_size_t size);
+ring_buf_size_t ring_buf_get_claim(struct ring_buf *buf, void **space, ring_buf_size_t size);
 
 int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size);
 
@@ -161,8 +159,7 @@ int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size);
  * \param size Number of bytes to put.
  * \returns Buffer space to acknowledge in bytes.
  */
-ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
-                             ring_buf_size_t size);
+ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data, ring_buf_size_t size);
 
 /*!
  * \brief Gets data from a ring buffer.
@@ -172,8 +169,7 @@ ring_buf_size_t ring_buf_put(struct ring_buf *buf, const void *data,
  * \param size Number of bytes to get.
  * \returns Number of bytes to acknowledge.
  */
-ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
-                             ring_buf_size_t size);
+ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data, ring_buf_size_t size);
 
 /*!
  * \brief Puts all or none.
@@ -184,8 +180,7 @@ ring_buf_size_t ring_buf_get(struct ring_buf *buf, void *data,
  * \param size Number of bytes to put.
  * \returns 0 on success, \c -EMSGSIZE if the data will not fit.
  */
-int ring_buf_put_all(struct ring_buf *buf, const void *data,
-                     ring_buf_size_t size);
+int ring_buf_put_all(struct ring_buf *buf, const void *data, ring_buf_size_t size);
 
 /*!
  * \brief Gets all or none.
@@ -206,10 +201,9 @@ int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size);
  * \param _name_ Name of the ring buffer.
  * \param _size_ Size of the ring buffer.
  */
-#define RING_BUF_DEFINE(_name_, _size_)                                        \
-  static uint8_t _ring_buf_space_##_name_[_size_];                             \
-  static struct ring_buf _name_ = {.space = _ring_buf_space_##_name_,          \
-                                   .size = _size_}
+#define RING_BUF_DEFINE_STATIC(_name_, _size_)                                                     \
+  static uint8_t _ring_buf_space_##_name_[_size_];                                                 \
+  static struct ring_buf _name_ = {.space = _ring_buf_space_##_name_, .size = _size_}
 
 /*!
  * \}
