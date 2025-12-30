@@ -5,8 +5,8 @@
 
 #include "correlate_f32.h"
 
-#include "ring_buf.h"
 #include "fepsiloneq.h"
+#include "ring_buf.h"
 
 #include <errno.h>
 
