@@ -28,9 +28,11 @@
 /*
  * float.h for DBL_EPSILON and friends
  * math.h for fabs(3) and friends
+ * stdbool.h for bool type
  */
 #include <float.h>
 #include <math.h>
+#include <stdbool.h>
 
 /*!
  * \brief Epsilon equality for double-precision floating-point numbers.
