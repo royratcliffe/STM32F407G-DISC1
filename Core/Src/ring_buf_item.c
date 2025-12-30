@@ -1,8 +1,14 @@
+/*
+ * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2024, Roy Ratcliffe, Northumberland, United Kingdom
+ */
 /*!
  * \file ring_buf_item.c
- * \copyright Roy Ratcliffe, Northumberland, United Kingdom
- *
- * SPDX-License-Identifier: MIT
+ * \brief Implementation of ring buffer item functions.
+ * \details This file contains the definitions for functions that handle
+ * putting and getting items in a ring buffer, where each item is prefixed with
+ * its length.
+ * \copyright 2024, 2025, Roy Ratcliffe, Northumberland, United Kingdom
  *
  * Permission is hereby granted, free of charge,  to any person obtaining a
  * copy  of  this  software  and    associated   documentation  files  (the

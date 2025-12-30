@@ -1,8 +1,14 @@
+/*
+ * SPDX-License-Identifier: MIT
+ * SPDX-FileCopyrightText: 2024, Roy Ratcliffe, Northumberland, United Kingdom
+ */
 /*!
  * \file ring_buf_item.h
- * \copyright Roy Ratcliffe, Northumberland, United Kingdom
- *
- * SPDX-License-Identifier: MIT
+ * \brief Header file for ring buffer item functions.
+ * \details This file contains the declarations for functions that handle
+ * putting and getting items in a ring buffer, where each item is prefixed with
+ * its length as a \c ring_buf_item_length_t 16-bit unsigned integer.
+ * \copyright 2024, 2025, Roy Ratcliffe, Northumberland, United Kingdom
  *
  * Permission is hereby granted, free of charge,  to any person obtaining a
  * copy  of  this  software  and    associated   documentation  files  (the
@@ -24,7 +30,8 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#pragma once
+#ifndef __RING_BUF_ITEM_H__
+#define __RING_BUF_ITEM_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -65,3 +72,5 @@ int ring_buf_item_get(struct ring_buf *buf, void *item,
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* __RING_BUF_ITEM_H__ */
