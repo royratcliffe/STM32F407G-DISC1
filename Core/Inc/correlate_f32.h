@@ -124,6 +124,29 @@ size_t correlated_max_f32(const struct correlate_f32 *correlate, float32_t *max)
 size_t correlated_min_f32(const struct correlate_f32 *correlate, float32_t *min);
 
 /*!
+ * \brief Get zero-lag correlation value from a correlate_f32 instance.
+ * \details The "zero lag" index is the length of the actuals less one. Positive
+ * lag corresponds to shifting the actual data forward relative to the expected
+ * data.
+ * \param correlate Correlate 32-bit float instance.
+ * \retval Zero-lag correlation index.
+ * \retval INT32_MIN if there is no data to correlate.
+ */
+int32_t correlate_zero_lag_f32(const struct correlate_f32 *correlate);
+
+/*!
+ * \brief Get peak-lag correlation value from a correlate_f32 instance.
+ * \details The peak-lag index is the index of the maximum correlated value less
+ * the zero-lag index. Positive lag corresponds to shifting the actual data
+ * forward relative to the expected data.
+ * \param correlate Correlate 32-bit float instance.
+ * \param peak Pointer to store peak correlated value. Can be NULL to ignore.
+ * \retval Peak-lag correlation index.
+ * \retval INT32_MIN if there is no data to correlate.
+ */
+int32_t correlate_peak_lag_f32(const struct correlate_f32 *correlate, float32_t *peak);
+
+/*!
  * \brief Normalise correlated data in a correlate_f32 instance.
  * \param correlate Correlate 32-bit float instance.
  * \retval 0 on success, negative error code on failure.

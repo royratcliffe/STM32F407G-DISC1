@@ -95,6 +95,27 @@ size_t correlated_min_f32(const struct correlate_f32 *correlate, float32_t *min)
   return (size_t)index;
 }
 
+int32_t correlate_zero_lag_f32(const struct correlate_f32 *correlate) {
+  if (correlate->actual_len == 0U) {
+    return INT32_MIN;
+  }
+  /*
+   * For correlation between sequences of lengths Nx and Nh, the "zero lag"
+   * index is (Nh - 1) where Nh is the length of the actual data. Positive lag
+   * corresponds to shifting h forward relative to x.
+   */
+  return (int32_t)(correlate->actual_len - 1U);
+}
+
+int32_t correlate_peak_lag_f32(const struct correlate_f32 *correlate, float32_t *peak) {
+  const size_t max_index = correlated_max_f32(correlate, peak);
+  const int32_t zero_lag = correlate_zero_lag_f32(correlate);
+  if (zero_lag == INT32_MIN) {
+    return INT32_MIN;
+  }
+  return (int32_t)max_index - zero_lag;
+}
+
 int correlate_normalise_f32(struct correlate_f32 *correlate) {
   if (correlate->correlated_len == 0U) {
     return -EINVAL;
