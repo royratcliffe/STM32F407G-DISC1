@@ -1,6 +1,8 @@
 /*!
  * \file correlate_f32.h
  * \brief Float32 correlation function prototypes.
+ * \details Declares functions and structures for correlating float32_t data
+ * using CMSIS-DSP.
  */
 
 #pragma once
@@ -101,6 +103,8 @@ size_t correlate_get_actual_f32(const struct correlate_f32 *correlate, float32_t
 
 /*!
  * \brief Get maximum value from correlated data in a correlate_f32 instance.
+ * \details The maxima corresponds to the best \e positive correlation between
+ * the expected and actual data.
  * \param correlate Correlate 32-bit float instance.
  * \param max Pointer to store maximum correlated value. Can be NULL to ignore. In this case,
  * only the index is returned.
@@ -109,11 +113,29 @@ size_t correlate_get_actual_f32(const struct correlate_f32 *correlate, float32_t
 size_t correlated_max_f32(const struct correlate_f32 *correlate, float32_t *max);
 
 /*!
+ * \brief Get minimum value from correlated data in a correlate_f32 instance.
+ * \details The minima corresponds to the best \e negative correlation between
+ * the expected and actual data.
+ * \param correlate Correlate 32-bit float instance.
+ * \param min Pointer to store minimum correlated value. Can be NULL to ignore.
+ * In this case, only the index is returned.
+ * \returns Index of the minimum correlated value.
+ */
+size_t correlated_min_f32(const struct correlate_f32 *correlate, float32_t *min);
+
+/*!
  * \brief Normalise correlated data in a correlate_f32 instance.
  * \param correlate Correlate 32-bit float instance.
+ * \retval 0 on success, negative error code on failure.
+ * \retval -EINVAL if there is no correlated data to normalise.
+ * \retval -EDOM if normalisation cannot be performed due to too small denominator.
  * \details Normalises the correlated data by dividing each element by the
  * square root of the product of the dot products of the expected and actual
  * data with themselves.
+ *
+ * Normalisation scales the correlated data to the range -1.0 to 1.0. A value of
+ * 1.0 indicates perfect positive correlation, -1.0 indicates perfect negative
+ * correlation, and 0.0 indicates no correlation.
  * \note Avoids division by zero by checking against FLT_EPSILON.
  */
-void correlate_normalise_f32(struct correlate_f32 *correlate);
+int correlate_normalise_f32(struct correlate_f32 *correlate);
