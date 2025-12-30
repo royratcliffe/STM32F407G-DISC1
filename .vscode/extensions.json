@@ -1,6 +1,7 @@
 {
     "recommendations": [
         "ms-vscode.cmake-tools",
+        "ms-vscode.cpptools-extension-pack",
         "marus25.cortex-debug",
         "marus25.cortex-debug-dp-stm32f4"
     ]
