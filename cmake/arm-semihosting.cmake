@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2025, Roy Ratcliffe, Northumberland, United Kingdom
 # CMake module for setting up ARM semihosting tests.
 
 # CMake function to add ARM semihosting tests.
