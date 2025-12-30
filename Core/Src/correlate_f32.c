@@ -28,6 +28,16 @@ int correlate_add_actual_f32(struct correlate_f32 *correlate, float32_t actual) 
 }
 
 int correlate_f32(struct correlate_f32 *correlate) {
+  /*
+   * Get used data from the expected and actual ring buffers into the correlate
+   * instance's expected and actual data arrays.
+   *
+   * This is necessary because arm_correlate_f32() operates on contiguous
+   * arrays, whereas the ring buffers overate in discontinuous memory space and
+   * may have wrapped around the end of the buffer. At most there will be two
+   * memory copies per buffer. That makes two, three or four memory copy
+   * operations in total depending on whether each buffer is contiguous or not.
+   */
   const size_t expected_len = ring_buf_get_used_f32(correlate->buf_expected, correlate->expected);
   const size_t actual_len = ring_buf_get_used_f32(correlate->buf_actual, correlate->actual);
   correlate->expected_len = expected_len;
@@ -97,6 +107,10 @@ void correlate_normalise_f32(struct correlate_f32 *correlate) {
 }
 
 static size_t ring_buf_get_used_f32(struct ring_buf *buf, float32_t *data) {
+  /*
+   * This involves one or two memory copies depending on whether the used
+   * space is contiguous or wraps around the end of the buffer.
+   */
   size_t len = ring_buf_get(buf, data, ring_buf_used_space(buf)) / sizeof(float32_t);
   (void)ring_buf_get_ack(buf, 0U);
   return len;
