@@ -100,6 +100,7 @@ target_sources(a_test PRIVATE
     ${CMAKE_SOURCE_DIR}/Tests/a_test.c
     ${CMAKE_SOURCE_DIR}/Tests/fcvtf.c
     # Add application sources.
+    ${CMAKE_SOURCE_DIR}/Core/Src/correlate_f32.c
     ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf.c
     ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf_circ.c
     ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf_item.c
