@@ -78,6 +78,10 @@ size_t correlate_get_actual_f32(const struct correlate_f32 *correlate, float32_t
 size_t correlated_max_f32(const struct correlate_f32 *correlate, float32_t *max) {
   float32_t value;
   uint32_t index;
+  /*
+   * What does arm_max_f32() do if the vector length is zero?
+   * What does arm_max_f32() do if there are multiple maximum values?
+   */
   arm_max_f32(correlate->correlated, correlate->correlated_len, &value, &index);
   if (max != NULL) {
     *max = value;
