@@ -22,6 +22,16 @@ set(CMAKE_EXECUTABLE_SUFFIX_CXX     ".elf")
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 
 # MCU specific flags
+# The STM32F4 series of microcontrollers include a floating-point
+# co-processor (FPU). Ensure that the CMake toolchain file enables FPU
+# support. For example, add the following lines to the toolchain file:
+#
+#   -mfpu=fpv4-sp-d16 for single-precision floating-point operations
+#   -mfloat-abi=hard to use hardware floating-point instructions
+#
+# These flags ensure that the compiler generates code that utilises
+# the FPU for floating-point calculations, improving performance for
+# applications that heavily utilise floating-point arithmetic.
 set(TARGET_FLAGS "-mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard ")
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${TARGET_FLAGS}")
@@ -43,3 +53,12 @@ set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--start-group -lc -lm -Wl,--en
 set(CMAKE_C_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--print-memory-usage")
 
 set(CMAKE_CXX_LINK_FLAGS "${CMAKE_C_LINK_FLAGS} -Wl,--start-group -lstdc++ -lsupc++ -Wl,--end-group")
+
+# QEMU System ARM emulator configuration for cross-compiling tests.
+set(CMAKE_CROSSCOMPILING_EMULATOR qemu-system-arm
+    -machine netduinoplus2
+    -nographic
+    -no-reboot
+    -semihosting-config enable=on,target=native
+    -kernel
+)

@@ -5,6 +5,27 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "cwd": "${workspaceFolder}",
+            "executable": "${command:cmake.launchTargetPath}",
+            "name": "Debug with QEMU",
+            "request": "launch",
+            "type": "cortex-debug",
+            // Provide both the CPU and machine type.
+            // The debugger automatically runs QEMU with these parameters, as follows.
+            //
+            //  qemu-system-arm -cpu cortex-m4 -machine netduinoplus2
+            //      -nographic -semihosting-config enable=on,target=native
+            //      -gdb "tcp::50000" -S -kernel "/path/to/some.elf"
+            //
+            "cpu": "cortex-m4",
+            // Ignore the warning about "machine" not being a valid property. It
+            // is used by the cortex-debug extension to launch QEMU.
+            "machine": "netduinoplus2",
+            "runToEntryPoint": "main",
+            "showDevDebugOutput": "none",
+            "servertype": "qemu"
+        },
+        {
             "cwd": "${workspaceRoot}",
             "executable": "${command:cmake.launchTargetPath}",
             "name": "Debug with OpenOCD",
