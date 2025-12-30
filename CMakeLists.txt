@@ -78,41 +78,63 @@ enable_testing()
 # Unit tests setup. Define include paths and symbols for unit tests. These are
 # similar to the main project, but can differ as the tests exclude
 # hardware-specific sources and middlewares.
-set(MX_Test_Include_Dirs
+set(ARMSemihostingCompileDefinitions
+    USE_HAL_DRIVER
+    STM32F407xx
+    $<$<CONFIG:Debug>:DEBUG>
+)
+set(ARMSemihostingIncludeDirectories
     ${CMAKE_SOURCE_DIR}/Core/Inc
     ${CMAKE_SOURCE_DIR}/Drivers/STM32F4xx_HAL_Driver/Inc
     ${CMAKE_SOURCE_DIR}/Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
     ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F4xx/Include
     ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Include
 )
-set(MX_Test_Defines_Syms
-    USE_HAL_DRIVER
-    STM32F407xx
-    $<$<CONFIG:Debug>:DEBUG>
-)
 
-# This test is run using QEMU emulating a Netduino Plus 2 board (STM32F407VG).
-# The test uses semihosting to report results back to the host.
-# The test has a timeout of 30 seconds.
-add_executable(a_test)
-target_sources(a_test PRIVATE
-    # Add test sources.
-    ${CMAKE_SOURCE_DIR}/Tests/a_test.c
-    ${CMAKE_SOURCE_DIR}/Tests/fcvtf.c
-    # Add application sources.
-    ${CMAKE_SOURCE_DIR}/Core/Src/correlate_f32.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf_circ.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf_item.c
-    ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf_yield.c
-    # Add system and startup sources.
-    ${CMAKE_SOURCE_DIR}/Core/Src/system_stm32f4xx.c
-    ${CMAKE_SOURCE_DIR}/startup_stm32f407xx.s
-)
-target_include_directories(a_test PRIVATE ${MX_Test_Include_Dirs})
-target_compile_definitions(a_test PRIVATE ${MX_Test_Defines_Syms})
-target_link_libraries(a_test PRIVATE arm_cortexM4lf_math)
-target_link_options(a_test PRIVATE --specs=rdimon.specs -lrdimon)
-set_target_properties(a_test PROPERTIES TIMEOUT 30)
+# CMake function to add ARM semihosting tests.
+# Parameters:
+# TEST_NAME - Name of the test executable.
+# TEST_SOURCES - List of source files for the test.
+# APP_SOURCES - List of application source files to include in the test.
+# Usage:
+# add_arm_semihosting_test(TEST_NAME my_test
+#     TEST_SOURCES
+#         test1.c
+#         test2.c
+#     APP_SOURCES
+#         app1.c
+#         app2.c
+# )
+function(add_arm_semihosting_test)
+    set(options)
+    set(oneValueArgs TEST_NAME)
+    set(multiValueArgs TEST_SOURCES APP_SOURCES)
+    cmake_parse_arguments(AAST "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-add_test(NAME a_test COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} ${CMAKE_BINARY_DIR}/a_test.elf)
+    add_executable(${AAST_TEST_NAME})
+    target_sources(${AAST_TEST_NAME} PRIVATE
+        ${AAST_TEST_SOURCES}
+        ${AAST_APP_SOURCES}
+        ${CMAKE_SOURCE_DIR}/Core/Src/system_stm32f4xx.c
+        ${CMAKE_SOURCE_DIR}/startup_stm32f407xx.s
+    )
+    target_include_directories(${AAST_TEST_NAME} PRIVATE ${ARMSemihostingIncludeDirectories})
+    target_compile_definitions(${AAST_TEST_NAME} PRIVATE ${ARMSemihostingCompileDefinitions})
+
+    # Link against the ARM Cortex-M4 math library.
+    target_link_libraries(${AAST_TEST_NAME} PRIVATE arm_cortexM4lf_math)
+
+    target_link_options(${AAST_TEST_NAME} PRIVATE --specs=rdimon.specs -lrdimon)
+    set_target_properties(${AAST_TEST_NAME} PROPERTIES TIMEOUT 30)
+    add_test(NAME ${AAST_TEST_NAME} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} ${CMAKE_BINARY_DIR}/${AAST_TEST_NAME}.elf)
+endfunction()
+
+add_arm_semihosting_test(TEST_NAME correlate_f32_test
+    TEST_SOURCES
+        ${CMAKE_SOURCE_DIR}/Tests/correlate_f32_test.c
+        ${CMAKE_SOURCE_DIR}/Tests/fcvtf.c
+    APP_SOURCES
+        ${CMAKE_SOURCE_DIR}/Core/Src/correlate_f32.c
+        ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf.c
+        ${CMAKE_SOURCE_DIR}/Core/Src/ring_buf_circ.c
+)
