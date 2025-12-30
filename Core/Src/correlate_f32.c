@@ -1,12 +1,14 @@
 /*!
  * \file correlate_f32.c
  * \brief Float32 correlation function definitions.
+ * \details Implements functions for correlating float32_t data using CMSIS-DSP.
  */
 
 #include "correlate_f32.h"
 
 #include "fepsiloneq.h"
 #include "ring_buf.h"
+#include "ring_buf_circ.h"
 
 #include <errno.h>
 
@@ -83,7 +85,20 @@ size_t correlated_max_f32(const struct correlate_f32 *correlate, float32_t *max)
   return (size_t)index;
 }
 
-void correlate_normalise_f32(struct correlate_f32 *correlate) {
+size_t correlated_min_f32(const struct correlate_f32 *correlate, float32_t *min) {
+  float32_t value;
+  uint32_t index;
+  arm_min_f32(correlate->correlated, correlate->correlated_len, &value, &index);
+  if (min != NULL) {
+    *min = value;
+  }
+  return (size_t)index;
+}
+
+int correlate_normalise_f32(struct correlate_f32 *correlate) {
+  if (correlate->correlated_len == 0U) {
+    return -EINVAL;
+  }
   float32_t expected_dot, actual_dot;
   /*
    * Normalise by sqrt(expected_dot * actual_dot) where expected_dot = sum
@@ -99,11 +114,13 @@ void correlate_normalise_f32(struct correlate_f32 *correlate) {
    * FLT_EPSILON is the smallest such that 1.0 + FLT_EPSILON != 1.0 in
    * single-precision floating point.
    */
-  if (FLT_EPSILON <= denom) {
-    for (size_t n = 0; n < correlate->correlated_len; ++n) {
-      correlate->correlated[n] /= denom;
-    }
+  if (FLT_EPSILON > denom) {
+    return -EDOM;
   }
+  for (size_t n = 0; n < correlate->correlated_len; ++n) {
+    correlate->correlated[n] /= denom;
+  }
+  return 0;
 }
 
 static size_t ring_buf_get_used_f32(struct ring_buf *buf, float32_t *data) {
