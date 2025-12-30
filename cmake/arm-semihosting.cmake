@@ -37,5 +37,5 @@ function(add_arm_semihosting_test)
 
     target_link_options(${AAST_TEST_NAME} PRIVATE --specs=rdimon.specs -lrdimon)
     set_target_properties(${AAST_TEST_NAME} PROPERTIES TIMEOUT 30)
-    add_test(NAME ${AAST_TEST_NAME} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} ${CMAKE_BINARY_DIR}/${AAST_TEST_NAME}.elf)
+    add_test(NAME ${AAST_TEST_NAME} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:${AAST_TEST_NAME}>)
 endfunction()
