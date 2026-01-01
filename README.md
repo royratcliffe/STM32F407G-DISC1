@@ -1,4 +1,4 @@
-
+See original blog post [here](https://roy.ratcliffe.me/2025/12/30/qemu-semi-hosting-on-stm32/).
 
 # Introduction
 
