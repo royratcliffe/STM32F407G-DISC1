@@ -91,6 +91,13 @@ set(ARMSemihostingIncludeDirectories
     ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F4xx/Include
     ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Include
 )
+set(ARMSemihostingSystemSources
+    ${CMAKE_SOURCE_DIR}/Core/Src/system_stm32f4xx.c
+    ${CMAKE_SOURCE_DIR}/startup_stm32f407xx.s
+)
+set(ARMSemihostingLinkLibraries
+    arm_cortexM4lf_math
+)
 
 include(arm-semihosting)
 
