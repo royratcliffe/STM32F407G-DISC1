@@ -41,7 +41,6 @@
  * the limit.
  * \param clamp Pointer to the value to clamp.
  * \param limit The limit to clamp the value to.
- * \returns None.
  */
 static inline void ring_buf_clamp(ring_buf_size_t *clamp,
                                   ring_buf_size_t limit) {
@@ -82,6 +81,13 @@ ring_buf_zone_claim(const struct ring_buf_zone *zone) {
   return zone->head - zone->tail;
 }
 
+/*!
+ * \brief Resets a ring buffer zone.
+ * \details Sets the base, head, and tail of the zone to the specified base
+ * index.
+ * \param zone Ring buffer zone.
+ * \param base Base index for the zone.
+ */
 static inline void ring_buf_zone_reset(struct ring_buf_zone *zone,
                                        ring_buf_ptrdiff_t base) {
   zone->base = zone->head = zone->tail = base;

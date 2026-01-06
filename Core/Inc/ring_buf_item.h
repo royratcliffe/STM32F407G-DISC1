@@ -46,25 +46,29 @@ extern "C" {
 typedef uint16_t ring_buf_item_length_t;
 
 /*!
- * \details Puts an item's length and content.
- * \note Does \e not auto-acknowledge the put claim.
+ * \brief Puts an item's length and content.
+ * \param buf Address of the ring buffer.
  * \param item Address of item to put.
  * \param length Number of bytes to put.
- * \returns Zero or greater on success, negative on error.
+ * \retval Zero or greater on success, negative on error.
  * \retval -EMSGSIZE if the buffer has insufficient space to put the item's
  * length and data.
+ * \note Does \e not auto-acknowledge the put claim.
  */
 int ring_buf_item_put(struct ring_buf *buf, const void *item,
                       ring_buf_item_length_t length);
 
 /*!
  * \brief Gets an item from a ring buffer.
- * \note The two-phase get claim cannot fail since a previous put succeeded. Do
- * \e not mix item-based puts with plain puts.
+ * \param buf Address of the ring buffer.
  * \param item Address of the item. Reserve sufficient space for the incoming
  * bytes. There must be space for the largest possible item, since the largest
  * one possible could be next.
  * \param length Address of the length of the item on success.
+ * \retval 0 on success.
+ * \retval -EAGAIN if the buffer is empty.
+ * \note The two-phase get claim cannot fail since a previous put succeeded. Do
+ * \e not mix item-based puts with plain puts.
  */
 int ring_buf_item_get(struct ring_buf *buf, void *item,
                       ring_buf_item_length_t *length);
