@@ -7,6 +7,8 @@
 # TEST_NAME - Name of the test executable.
 # TEST_SOURCES - List of source files for the test.
 # APP_SOURCES - List of application source files to include in the test.
+# SYSTEM_SOURCES - List of system source files, e.g. startup code.
+# LINK_LIBRARIES - List of libraries to link against.
 # Usage:
 # add_arm_semihosting_test(TEST_NAME my_test
 #     TEST_SOURCES
@@ -19,7 +21,8 @@
 #         system1.c
 #         system2.c
 #     LINK_LIBRARIES
-#         my_library
+#         library1
+#         library2
 # )
 function(add_arm_semihosting_test)
     set(options)
