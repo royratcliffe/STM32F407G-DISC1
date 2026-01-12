@@ -12,11 +12,11 @@ jobs:
 
     strategy:
       # Set fail-fast to false to ensure that feedback is delivered for all
-      # matrix combinations. # Consider changing this to true when your workflow
+      # matrix combinations. Consider changing this to true when your workflow
       # is stable.
       fail-fast: false
 
-      # Set up a matrix to run the following configurations. # To add more build
+      # Set up a matrix to run the following configurations. To add more build
       # types (Release, Debug, RelWithDebInfo) customise the build_type list.
       matrix:
         os: [ubuntu-latest, windows-latest]
