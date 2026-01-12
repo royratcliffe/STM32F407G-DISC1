@@ -71,8 +71,12 @@ typedef size_t ring_buf_size_t;
 #define RING_BUF_SIZE_MAX ((ring_buf_size_t)PTRDIFF_MIN)
 
 /*!
- * \defgroup ring_buf_zone Ring Buffer Zone
- * \ingroup ring_buf_zone
+ * \defgroup ring_buf_zone Ring Buffer Zone Access
+ * \brief Encapsulates the concept of a ring buffer zone, which includes base,
+ * head, and tail pointers used for managing data within the buffer.
+ * \details A ring buffer zone is a fundamental component of the ring buffer,
+ * representing either the put or get area. Each zone maintains its own set of
+ * pointers to track the state of data within the buffer.
  * \{
  */
 
@@ -87,7 +91,23 @@ typedef size_t ring_buf_size_t;
  * \note This structure needs to exist within the header.
  */
 struct ring_buf_zone {
-  ring_buf_ptrdiff_t base, head, tail;
+  /*!
+   * \brief Base index of the zone.
+   * \details Marks the starting point of the zone within the ring buffer.
+   */
+  ring_buf_ptrdiff_t base;
+
+  /*!
+   * \brief Head index of the zone.
+   * \details Marks the end point of the zone within the ring buffer.
+   */
+  ring_buf_ptrdiff_t head;
+
+  /*!
+   * \brief Tail index of the zone.
+   * \details Marks the position of the oldest data in the zone.
+   */
+  ring_buf_ptrdiff_t tail;
 };
 
 /*!
@@ -96,7 +116,6 @@ struct ring_buf_zone {
 
 /*!
  * \defgroup ring_buf Ring Buffer
- * \ingroup ring_buf
  * \{
  */
 
@@ -112,17 +131,24 @@ struct ring_buf {
    * \details Points to the memory area where the ring buffer's data is stored.
    */
   void *space;
+
   /*!
    * \brief Size of the ring buffer.
    * \details Indicates the total size of the buffer in bytes.
    */
   ring_buf_size_t size;
+
   /*!
-   * \brief Put and get zones.
-   * \details Contains the zones for putting and getting data in the ring
-   * buffer.
+   * \brief Put zone.
+   * \details Contains the zone for putting data in the ring buffer.
    */
-  struct ring_buf_zone put, get;
+  struct ring_buf_zone put;
+
+  /*!
+   * \brief Get zone.
+   * \details Contains the zone for getting data in the ring buffer.
+   */
+  struct ring_buf_zone get;
 };
 
 /*!
@@ -181,7 +207,9 @@ void ring_buf_reset(struct ring_buf *buf, ring_buf_ptrdiff_t base);
 
 /*!
  * \defgroup ring_buf_contiguous Contiguous Ring Buffer Access
- * \ingroup ring_buf_contiguous
+ * \brief Functions for contiguous access to ring buffer data.
+ * \details These functions allow for claiming and acknowledging contiguous
+ * space within the ring buffer for both putting and getting data.
  * \{
  */
 
@@ -246,7 +274,9 @@ int ring_buf_get_ack(struct ring_buf *buf, ring_buf_size_t size);
 
 /*!
  * \defgroup ring_buf_discontiguous Discontiguous Ring Buffer Access
- * \ingroup ring_buf_discontiguous
+ * \brief Functions for discontiguous access to ring buffer data.
+ * \details These functions allow for putting and getting data that may span
+ * across the end of the ring buffer, handling wrap-around as necessary.
  * \{
  */
 
@@ -294,7 +324,7 @@ int ring_buf_put_all(struct ring_buf *buf, const void *data,
  * \param data Address of copied data.
  * \param size Number of bytes to get.
  * \retval 0 on success
- * \retval -EMSGSIZE if insufficient data is available.
+ * \retval -EAGAIN if insufficient data is available.
  */
 int ring_buf_get_all(struct ring_buf *buf, void *data, ring_buf_size_t size);
 
