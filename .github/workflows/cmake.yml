@@ -47,13 +47,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install QEMU
+    - name: Install ARM Toolchain and QEMU
       run: |
         if [ "$RUNNER_OS" == "Linux" ]; then
           sudo apt-get update
-          sudo apt-get install -y qemu-system-arm
+          sudo apt-get install -y gcc-arm-none-eabi qemu-system-arm
         elif [ "$RUNNER_OS" == "Windows" ]; then
-          choco install qemu -y
+          choco install gcc-arm-none-eabi qemu -y
         fi
       shell: bash
 
