@@ -1,3 +1,5 @@
+[![Cross-Compiling on Linux and Windows](https://github.com/royratcliffe/STM32F407G-DISC1/actions/workflows/cmake.yml/badge.svg)](https://github.com/royratcliffe/STM32F407G-DISC1/actions/workflows/cmake.yml)
+
 See original blog post [here](https://roy.ratcliffe.me/2025/12/30/qemu-semi-hosting-on-stm32/).
 
 # Introduction
