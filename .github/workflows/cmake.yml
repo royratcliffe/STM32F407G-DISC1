@@ -35,7 +35,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gcc-arm-none-eabi qemu-system-arm
         elif [ "$RUNNER_OS" == "Windows" ]; then
-          choco install gcc-arm-none-eabi qemu -y
+          choco install gcc-arm-embedded qemu -y
         fi
       shell: bash
 
