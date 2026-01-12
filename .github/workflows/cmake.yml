@@ -32,6 +32,8 @@ jobs:
     - uses: carlosperate/arm-none-eabi-gcc-action@v1
     - run: arm-none-eabi-gcc --version
 
+    # Note that Chocolatey installs the qemu-system-arm package on Windows.
+    # However, the installation path is not added to the PATH environment variable by default.
     - name: Install QEMU
       run: |
         if [ "$RUNNER_OS" == "Linux" ]; then
