@@ -63,6 +63,9 @@ target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
 target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
 
+    # Add ARM Cortex-M4 math library to main executable
+    arm_cortexM4lf_math
+
     # Add user defined libraries
 )
 
