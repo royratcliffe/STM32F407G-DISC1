@@ -66,6 +66,13 @@ int correlate_add_expected_f32(struct correlate_f32 *correlate, float32_t expect
 int correlate_add_actual_f32(struct correlate_f32 *correlate, float32_t actual);
 
 /*!
+ * \brief Reset a correlate_f32 instance.
+ * \param correlate Correlate 32-bit float instance to reset.
+ * \note Resets the correlated, expected and actual data lengths to zero.
+ */
+void correlate_reset_f32(struct correlate_f32 *correlate);
+
+/*!
  * \brief Perform correlation on the data in the correlate_f32 instance.
  * \param correlate Correlate 32-bit float instance.
  * \returns 0 on success, negative error code on failure.

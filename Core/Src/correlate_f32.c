@@ -29,6 +29,14 @@ int correlate_add_actual_f32(struct correlate_f32 *correlate, float32_t actual) 
   return ring_buf_put_circ(correlate->buf_actual, &actual, sizeof(actual));
 }
 
+void correlate_reset_f32(struct correlate_f32 *correlate) {
+  ring_buf_reset(correlate->buf_expected, 0);
+  ring_buf_reset(correlate->buf_actual, 0);
+  correlate->correlated_len = 0U;
+  correlate->expected_len = 0U;
+  correlate->actual_len = 0U;
+}
+
 int correlate_f32(struct correlate_f32 *correlate) {
   /*
    * Get used data from the expected and actual ring buffers into the correlate
