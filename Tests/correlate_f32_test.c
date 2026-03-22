@@ -66,8 +66,7 @@ int correlate_f32_test(void) {
   }
   peak_lag = correlate_peak_lag_f32(&test_corr, &peak);
   assert(peak_lag != INT32_MIN);
-  (void)printf("Normalised peak correlation value %s at lag %ld\n", cvtfbuf(peak, 9, buf),
-               (long)peak_lag);
+  (void)printf("Normalised peak correlation value %s at lag %ld\n", cvtfbuf(peak, 9, buf), (long)peak_lag);
 
   /*
    * Check normalised maximum value. Use epsilon of one (although it succeeds
