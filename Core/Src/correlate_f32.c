@@ -29,6 +29,14 @@ int correlate_add_actual_f32(struct correlate_f32 *correlate, float32_t actual) 
   return ring_buf_put_circ(correlate->buf_actual, &actual, sizeof(actual));
 }
 
+void correlate_reset_f32(struct correlate_f32 *correlate) {
+  ring_buf_reset(correlate->buf_expected, 0);
+  ring_buf_reset(correlate->buf_actual, 0);
+  correlate->correlated_len = 0U;
+  correlate->expected_len = 0U;
+  correlate->actual_len = 0U;
+}
+
 int correlate_f32(struct correlate_f32 *correlate) {
   /*
    * Get used data from the expected and actual ring buffers into the correlate
@@ -75,7 +83,10 @@ size_t correlate_get_actual_f32(const struct correlate_f32 *correlate, float32_t
   return correlate->actual_len;
 }
 
-size_t correlated_max_f32(const struct correlate_f32 *correlate, float32_t *max) {
+int32_t correlated_max_f32(const struct correlate_f32 *correlate, float32_t *max) {
+  if (correlate->correlated_len == 0U) {
+    return INT32_MIN;
+  }
   float32_t value;
   uint32_t index;
   /*
@@ -86,17 +97,20 @@ size_t correlated_max_f32(const struct correlate_f32 *correlate, float32_t *max)
   if (max != NULL) {
     *max = value;
   }
-  return (size_t)index;
+  return (int32_t)index;
 }
 
-size_t correlated_min_f32(const struct correlate_f32 *correlate, float32_t *min) {
+int32_t correlated_min_f32(const struct correlate_f32 *correlate, float32_t *min) {
+  if (correlate->correlated_len == 0U) {
+    return INT32_MIN;
+  }
   float32_t value;
   uint32_t index;
   arm_min_f32(correlate->correlated, correlate->correlated_len, &value, &index);
   if (min != NULL) {
     *min = value;
   }
-  return (size_t)index;
+  return (int32_t)index;
 }
 
 int32_t correlate_zero_lag_f32(const struct correlate_f32 *correlate) {
@@ -112,12 +126,15 @@ int32_t correlate_zero_lag_f32(const struct correlate_f32 *correlate) {
 }
 
 int32_t correlate_peak_lag_f32(const struct correlate_f32 *correlate, float32_t *peak) {
-  const size_t max_index = correlated_max_f32(correlate, peak);
+  const int32_t max_index = correlated_max_f32(correlate, peak);
+  if (max_index == INT32_MIN) {
+    return INT32_MIN;
+  }
   const int32_t zero_lag = correlate_zero_lag_f32(correlate);
   if (zero_lag == INT32_MIN) {
     return INT32_MIN;
   }
-  return (int32_t)max_index - zero_lag;
+  return max_index - zero_lag;
 }
 
 int correlate_normalise_f32(struct correlate_f32 *correlate) {

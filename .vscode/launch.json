@@ -38,7 +38,7 @@
             ],
             "searchDir": [],
             "runToEntryPoint": "main",
-            "showDevDebugOutput": "raw"
+            "showDevDebugOutput": "parsed"
         },
         {
             "cwd": "${workspaceFolder}",

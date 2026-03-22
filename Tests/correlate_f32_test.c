@@ -66,8 +66,7 @@ int correlate_f32_test(void) {
   }
   peak_lag = correlate_peak_lag_f32(&test_corr, &peak);
   assert(peak_lag != INT32_MIN);
-  (void)printf("Normalised peak correlation value %s at lag %ld\n", cvtfbuf(peak, 9, buf),
-               (long)peak_lag);
+  (void)printf("Normalised peak correlation value %s at lag %ld\n", cvtfbuf(peak, 9, buf), (long)peak_lag);
 
   /*
    * Check normalised maximum value. Use epsilon of one (although it succeeds
@@ -82,6 +81,12 @@ int correlate_f32_test(void) {
   assert(fepsiloneqf(3, 0.468292892F, max));
   assert(correlated_min_f32(&test_corr, &min) == 4U);
   assert(fepsiloneqf(3, -0.093658581F, min));
+
+  correlate_reset_f32(&test_corr);
+  assert(correlate_zero_lag_f32(&test_corr) == INT32_MIN);
+  assert(correlate_peak_lag_f32(&test_corr, NULL) == INT32_MIN);
+  assert(correlated_max_f32(&test_corr, NULL) == INT32_MIN);
+  assert(correlated_min_f32(&test_corr, NULL) == INT32_MIN);
 
   return 0;
 }
