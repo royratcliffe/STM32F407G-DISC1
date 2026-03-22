@@ -115,9 +115,10 @@ size_t correlate_get_actual_f32(const struct correlate_f32 *correlate, float32_t
  * \param correlate Correlate 32-bit float instance.
  * \param max Pointer to store maximum correlated value. Can be NULL to ignore. In this case,
  * only the index is returned.
- * \returns Index of the maximum correlated value.
+ * \retval Index of the maximum correlated value.
+ * \retval INT32_MIN if there is no data to correlate.
  */
-size_t correlated_max_f32(const struct correlate_f32 *correlate, float32_t *max);
+int32_t correlated_max_f32(const struct correlate_f32 *correlate, float32_t *max);
 
 /*!
  * \brief Get minimum value from correlated data in a correlate_f32 instance.
@@ -126,9 +127,10 @@ size_t correlated_max_f32(const struct correlate_f32 *correlate, float32_t *max)
  * \param correlate Correlate 32-bit float instance.
  * \param min Pointer to store minimum correlated value. Can be NULL to ignore.
  * In this case, only the index is returned.
- * \returns Index of the minimum correlated value.
+ * \retval Index of the minimum correlated value.
+ * \retval INT32_MIN if there is no data to correlate.
  */
-size_t correlated_min_f32(const struct correlate_f32 *correlate, float32_t *min);
+int32_t correlated_min_f32(const struct correlate_f32 *correlate, float32_t *min);
 
 /*!
  * \brief Get zero-lag correlation value from a correlate_f32 instance.
