@@ -1,4 +1,5 @@
 {
+    "cortex-debug.gdbPath.linux": "gdb-multiarch",
     "cortex-debug.variableUseNaturalFormat": true,
     "files.associations": {
         "*.h": "c"
